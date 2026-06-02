@@ -14,11 +14,20 @@ class PageController extends Controller
     $posts = Post::all()->load(['user']);
     $posts = Post::with('user')->latest()->get();
     */
-    public function dashboard(): View
+    public function dashboard(Request $request): View
     {
-        $posts = Post::latest()->get();
 
-        // dd($posts->toJson(JSON_PRETTY_PRINT)); // nota: imprime 
+        // $request->all(); 
+        // $request->get('for-my'); 
+        // $request->user();  //nota obtiene el usuario logeado
+        // $request->user()->id; 
+
+        if ($request->get('for-my')) {
+            $posts = Post::where('user_id', $request->user()->id)->latest()->get();
+            // $posts = $request->user()->posts; // obtiene los post del usuario logeado. mismo resultado que optiene posts como la linea de arriba 
+        } else {
+            $posts = Post::latest()->get();
+        }
 
         return view('dashboard', ['posts' => $posts]);
     }
