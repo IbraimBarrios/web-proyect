@@ -13,13 +13,16 @@ class PageController extends Controller
     public function dashboard(Request $request): View
     {
 
-        dd(
-            $request->user()->friendsFrom()->get(),
-            $request->user()->friendsTo()->get(),
-        );
+        
 
         if ($request->get('for-my')) {
-            $posts = Post::where('user_id', $request->user()->id)->latest()->get();
+            $user = $request->user();
+
+            $friends_from_ids = $user->friendsFrom()->pluck('users.id');
+            $friends_to_ids = $user->friendsTo()->pluck('users.id');
+            $users_ids = $friends_from_ids->merge($friends_to_ids)->push($user->id);
+
+            $posts = Post::whereIn('user_id', $users_ids)->latest()->get();
         } else {
             $posts = Post::latest()->get();
         }
