@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -12,9 +13,6 @@ class PageController extends Controller
 {
     public function dashboard(Request $request): View
     {
-
-        
-
         if ($request->get('for-my')) {
             $user = $request->user();
 
@@ -28,5 +26,12 @@ class PageController extends Controller
         }
 
         return view('dashboard', ['posts' => $posts]);
+    }
+
+    public function profile(User $user)
+    {
+        $posts = $user->posts()->latest()->get();
+
+        return view('profile', ['posts' => $posts, 'user' => $user ]);
     }
 }
