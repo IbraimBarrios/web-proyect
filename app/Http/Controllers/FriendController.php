@@ -25,4 +25,14 @@ class FriendController extends Controller
         
         return back();
     }
+
+    public function update(Request $request, User $user)
+    {
+    
+        $request->user()->pendingTo()->where('from_id', $user->id)->update([
+            'accepted' => true,
+        ]);
+
+        return back();
+    }
 }

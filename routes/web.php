@@ -19,6 +19,7 @@ Route::middleware('auth')->group(function () {
     
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
     Route::post('/friends/{user}', [FriendController::class, 'store'])->name('friends.store');
+    Route::put('/friends/{user}', [FriendController::class, 'update'])->name('friends.update');
     Route::get('/profile/{user}', [PageController::class, 'profile'])->name('profile.show');
     Route::get('status',[PageController::class, 'status'])->name('status');
 });
