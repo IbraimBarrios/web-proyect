@@ -17,6 +17,7 @@ class PostResource extends JsonResource
         return [
             'id' => $this->id,
             'body' => $this->body,
+            'user' => new UserSummaryResource($this->user),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
