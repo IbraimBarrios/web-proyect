@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 // user
 Route::get('/users', function () {
     return UserResource::collection(User::all());
+    // return new UserCollection(User::all()); // uso de la coleccion personalizada
 });
 
 Route::get('/user/{id}', function (string $id) {
