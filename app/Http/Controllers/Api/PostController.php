@@ -23,7 +23,15 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-       //
+       $attributes = $request->validate([
+            'user_id' => ['required', 'exists:users,id'],
+            'body' => ['required'],
+        ]);
+
+        $post = Post::create($attributes);
+        $post->load('user');
+
+        return new PostResource($post);
     }
 
     /**
